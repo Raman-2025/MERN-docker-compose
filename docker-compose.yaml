@@ -10,8 +10,8 @@ services:
        - my-data:/data/db
      restart: always
      environment:
-       MONGO_INITDB_ROOT_USER: root
-       MONGO_INITDB_ROOT_PASSWORD: root
+       MONGO_INITDB_ROOT_USERNAME: root
+       MONGO_INITDB_ROOT_PASSWORD: pass
        MONGO_INITDB_DATABASE: mydatabase
 
    backend:
@@ -21,13 +21,13 @@ services:
      ports:
        - "5050:5050"
      networks:
-       - mern-network
+       - mern-nw
      restart: always
      depends_on:
         - mongo
      environment:
-       MONGO_INITDB_ROOT_USER: root
-       MONGO_INITDB_ROOT_PASSWORD: root
+       MONGO_INITDB_ROOT_USERNAME: root
+       MONGO_INITDB_ROOT_PASSWORD: pass
        MONGO_INITDB_DATABASE: mydatabase 
        MONGO_INITDB_HOST: mongo
 
