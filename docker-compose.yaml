@@ -1,51 +1,47 @@
 services:
-   mongo:
-     image: mongo:latest
-     container_name: mongo
-     ports:
-       - "27017:27017"
-     networks:
-       - mern-nw
-     volumes:
-       - my-data:/data/db
-     restart: always
-     environment:
-       MONGO_INITDB_ROOT_USERNAME: root
-       MONGO_INITDB_ROOT_PASSWORD: pass
-       MONGO_INITDB_DATABASE: mydatabase
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - mern-nw
+    volumes:
+      - my-data:/data/db
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_INITDB_DATABASE: mydatabase
 
-   backend:
-     build:
-       context: ./mern/backend
-     container_name: backend
-     ports:
-       - "5050:5050"
-     networks:
-       - mern-nw
-     restart: always
-     depends_on:
-        - mongo
-     environment:
-       MONGO_INITDB_ROOT_USERNAME: root
-       MONGO_INITDB_ROOT_PASSWORD: pass
-       MONGO_INITDB_DATABASE: mydatabase 
-       MONGO_INITDB_HOST: mongo
+  backend:
+    build:
+      context: ./mern/backend
+    container_name: backend
+    ports:
+      - "5050:5050"
+    networks:
+      - mern-nw
+    restart: always
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: mongodb://root:pass@mongo:27017/mydatabase?authSource=admin   # ✅ FIXED
 
-   frontend:
-     build:
-       context: ./mern/frontend
-     container_name: frontend
-     ports:
-       - "5173:5173"
-     networks:
-       - mern-nw
-     restart: always
-     depends_on:
-       - backend
+  frontend:
+    build:
+      context: ./mern/frontend
+    container_name: frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - mern-nw
+    restart: always
+    depends_on:
+      - backend
 
 networks:
-   mern-nw:
-   
+  mern-nw:
+
 volumes:
-   my-data:
-   
+  my-data:
